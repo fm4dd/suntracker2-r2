@@ -21,7 +21,8 @@ orientation of Mini-PV systems.
 
 <img src="img/suntracker2r2 block diagram.png" width="600px">
 
-This is a interim revision to establish PCB design and manufacturing.
+This is a interim revision to establish PCB design and manufacturing. The next
+version is revision 3, located <a href="https://github.com/fm4dd/suntracker2-r3">here</a>
 
 ### Board Description and Components
 

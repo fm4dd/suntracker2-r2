@@ -16,6 +16,7 @@
 #include "U8g2lib.h"           // https://github.com/olikraus/u8g2
 #include "Adafruit_MCP23017.h" // https://github.com/adafruit/Adafruit-MCP23017-Arduino-Library
 #include "uRTCLib.h"           // https://github.com/Naguissa/uRTCLib
+#include <avr/dtostrf.h>       // dtostrf float conversion
 
 /* ------------------------------------------------- */
 /* DEBUG enables debug output to the serial monitor  */
@@ -360,17 +361,42 @@ void setup() {
   /* compass.init(LSM303::device_DLHC,LSM303::sa0_high);
   /* init() without args tries to determine chip type  */
   /* ------------------------------------------------- */
+  boolean mag_found = false;
   oled1.drawStr(0, 14, "Init Compass:");
   oled1.sendBuffer();
-  //compass.init(LSM303::device_D,LSM303::sa0_high); /* Sunhayato MM-TXS05 */
-  compass.init(); /* Enable the LSM303DLC module autoconfig mode  */
-  compass.enableDefault();
-  /* LSM303D Calibration values, see Calibrate example */
-  compass.m_min = (LSM303::vector<int16_t>){-2461, -2517, -2943};
-  compass.m_max = (LSM303::vector<int16_t>){+1762, +2254, +1969};
-  oled1.drawStr(0, 30, "LSM303D OK");
-  oled1.sendBuffer();
-  delay(1500);
+  mag_found = compass.init();
+  if(mag_found) {
+    if(compass.getDeviceType() == 3) oled1.drawStr(0, 30, "SH MM-TXS05");
+    else 
+      if(compass.getDeviceType() == 2) oled1.drawStr(0, 30, "ADA-LSM303");
+    oled1.sendBuffer();
+    compass.enableDefault();
+    /* ------------------------------------------------- */
+    /* LSM303D Calibration values, see Calibrate example */
+    /* ------------------------------------------------- */
+    compass.m_min = (LSM303::vector<int16_t>){-2461, -2517, -2943};
+    compass.m_max = (LSM303::vector<int16_t>){+1762, +2254, +1969};
+    oled1.drawStr(100, 30, "OK");
+    oled1.sendBuffer();
+    /* ------------------------------------------------- */
+    /* Aquire compass sensor data                        */
+    /* ------------------------------------------------- */
+    compass.read();
+    if(compass.getDeviceType() == 3) heading = compass.heading() + mdecl;
+    if(compass.getDeviceType() == 2) heading = compass.heading((LSM303::vector<int>){1,0,0}) + mdecl;
+    if(heading < 0) heading = 360.0 + heading;
+    /* ------------------------------------------------- */
+    /* print North heading to TFT                        */
+    /* ------------------------------------------------- */
+    dtostrf(heading,6,4,lineStr);
+    oled1.drawStr(0,46, "Heading: ");
+    oled1.drawStr(0,62, lineStr);
+    oled1.sendBuffer();
+  }
+  else {
+    oled1.drawStr(0, 30, "LSM303 Not Found");
+  }
+  delay(2000);
   oled1.clearBuffer();
   /* ------------------------------------------------- */
   /* Enable the IO port expansion modules. I2C address */
@@ -480,8 +506,8 @@ void loop() {
   /* to determine true North from magnetic North       */ 
   /* https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml   */
   /* ------------------------------------------------- */
-  //heading = compass.heading((LSM303::vector<int>){0,-1,0}) + mdecl;
-  heading = compass.heading() + mdecl;
+  if(compass.getDeviceType() == 3) heading = compass.heading() + mdecl;
+  if(compass.getDeviceType() == 2) heading = compass.heading((LSM303::vector<int>){1,0,0}) + mdecl;
   
   /* ------------------------------------------------- */
   /* print North heading to OLED2                      */

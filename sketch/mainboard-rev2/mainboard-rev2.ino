@@ -88,11 +88,6 @@ const uint8_t dip1  = 0;     // GPIO pin dipswitch-1 on GPIO-0
 const uint8_t dip2  = 1;     // GPIO pin dipswitch-2 on GPIO-1
 const uint8_t push1 = 2;     // GPIO pin pushbutton-1 on GPIO-2
 const uint8_t push2 = 3;     // GPIO pin pushbutton-2 on GPIO-3
-const uint8_t step1 = 4;     // GPIO pin stepper motor-1 step
-const uint8_t dir1  = 5;     // GPIO pin stepper motor-1 direction
-const uint8_t ms11  = 6;     // GPIO pin stepper motor-1 step size 1
-const uint8_t ms21  = 7;     // GPIO pin stepper motor-1 step size 2
-const uint8_t ena1  = 8;     // GPIO pin stepper motor-1 enable
 const double mdecl = -7.583; // local magnetic declination
 uint8_t dippos1 = 0;         // dipswitch 1 position (extra tests)
 uint8_t dippos2 = 0;         // dipswitch 2 position (undefined)
@@ -216,7 +211,6 @@ void setup() {
   /* ------------------------------------------------- */
   /* Enable the OLED graphics display 14char line font */
   /* ------------------------------------------------- */
-  oled1.setI2CAddress(0x3C * 2);
   oled1.begin();
   oled1.setFont(u8g2_font_t0_17_mr);
   oled1.setFontMode(0);
@@ -478,7 +472,7 @@ void loop() {
     display_daysymbol(oled1);
   }
   /* ------------------------------------------------- */
-  /* Show time on OLED2                                */
+  /* Show time on OLED                                 */
   /* ------------------------------------------------- */
   snprintf(dateStr, sizeof(dateStr), "20%d/%02d/%02d",
   rtc.year(),rtc.month(),rtc.day());
@@ -510,7 +504,7 @@ void loop() {
   if(compass.getDeviceType() == 2) heading = compass.heading((LSM303::vector<int>){1,0,0}) + mdecl;
   
   /* ------------------------------------------------- */
-  /* print North heading to OLED2                      */
+  /* print North heading to OLED                       */
   /* ------------------------------------------------- */
   snprintf(dirStr, sizeof(dirStr), "H%03d", (int)round((heading) * 10 / 10.0));
   oled1.setFont(u8g2_font_inr19_mr);

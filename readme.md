@@ -26,6 +26,8 @@ version is revision 3, located <a href="https://github.com/fm4dd/suntracker2-r3"
 
 ### Board Description and Components
 
+![](img/overview.png)
+
 The main controller board contains the 32bit Arduino MKRZero MCU, the
 LSM303 magnetometer sensor, DS3231 RTC clock module, and four 16pin GPIO expander
 circuits. A 128x64 OLED display shows operational data and status messages.

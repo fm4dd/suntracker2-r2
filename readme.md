@@ -32,7 +32,7 @@ The main controller board contains the 32bit Arduino MKRZero MCU, the
 LSM303 magnetometer sensor, DS3231 RTC clock module, and four 16pin GPIO expander
 circuits. A 128x64 OLED display shows operational data and status messages.
 
-A 32 color LED display board connects to the controller board to develop the 
+A 32-color LED display board connects to the controller board to develop the 
 GPIO controller functions for the sun positioning display.
 
 In the next revision, the 32 LED ring will form a ring that represents the horizon
@@ -52,4 +52,4 @@ location, on a Linux PC.
 
 ### PCB
 
-<img src="img/DSC_2850s.png">
+![](img/DSC_2850s.png)

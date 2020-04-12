@@ -1,6 +1,6 @@
 # SunTracker2 Revision 2
 
-https://github.com/fm4dd/suntracker2-r2/workflows/test/badge.svg
+![test](https://github.com/fm4dd/suntracker2-r2/workflows/test/badge.svg)
 
 <img src="img/DSC_2901s.png">
 

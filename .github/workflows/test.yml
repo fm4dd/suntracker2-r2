@@ -53,6 +53,16 @@ jobs:
         run: |
           arduino-cli core update-index
           arduino-cli core install ${{ matrix.arduino-platform }}
+      # We then install the platform, which one will be determined
+      # dynamically by the build matrix.
+      - name:  Add libraries
+        run: |
+          arduino-cli lib install "SD"
+          arduino-cli lib install "LSM303"
+          arduino-cli lib install "u8g2"
+          arduino-cli lib install "U8g2 GFX"
+          arduino-cli lib install "uRTCLib"
+          arduino-cli lib install "Adafruit MCP23017 Arduino Library"
 
       # Finally, we compile the sketch, using the FQBN that was set
       # in the build matrix.

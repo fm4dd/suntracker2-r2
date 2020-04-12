@@ -59,7 +59,7 @@ jobs:
         run: |
           arduino-cli lib install "SD"
           arduino-cli lib install "LSM303"
-          arduino-cli lib install "u8g2"
+          arduino-cli lib install "U8g2"
           arduino-cli lib install "U8g2 GFX"
           arduino-cli lib install "uRTCLib"
           arduino-cli lib install "Adafruit MCP23017 Arduino Library"

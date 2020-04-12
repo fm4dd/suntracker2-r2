@@ -53,8 +53,8 @@ jobs:
         run: |
           arduino-cli core update-index
           arduino-cli core install ${{ matrix.arduino-platform }}
-      # We then install the platform, which one will be determined
-      # dynamically by the build matrix.
+
+      # Now we need to add the external library dependencies here
       - name:  Add libraries
         run: |
           arduino-cli lib install "SD"
